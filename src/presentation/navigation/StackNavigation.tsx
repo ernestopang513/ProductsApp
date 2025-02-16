@@ -25,6 +25,7 @@ export const StackNavigation = () => {
     initialRouteName="LoginScreen"
     screenOptions={{
       headerShown: false,
+      cardStyle: {backgroundColor: 'transparent'}
 
     }}
     
