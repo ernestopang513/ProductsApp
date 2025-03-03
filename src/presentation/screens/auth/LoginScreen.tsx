@@ -40,7 +40,6 @@ export const LoginScreen = ({navigation}: Props) => {
 
   }
 
-  console.log({apiUrl: API_URL_ANDROID, stage: STAGE, prueba: prueba })
 
   return (
     <Layout style={{flex: 1}}>
