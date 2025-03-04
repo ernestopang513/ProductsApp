@@ -30,7 +30,7 @@ const fadeAnimation: StackCardStyleInterpolator = ({ current }) => {
 export const StackNavigation = () => {
   return (
     <Stack.Navigator
-    initialRouteName="LoginScreen"
+    initialRouteName="LoadingScreen"
     screenOptions={{
       headerShown: false,
     }}

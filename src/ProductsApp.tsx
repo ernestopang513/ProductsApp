@@ -6,6 +6,7 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import './presentation/navigation/gesture-handler'
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components"
 import { useColorScheme, View } from "react-native";
+import { AuthProvider } from "./presentation/providers/AuthProvider";
 
 export const ProductsApp = () => {
 
@@ -25,7 +26,9 @@ export const ProductsApp = () => {
         <View style={{ flex: 1, backgroundColor: backgroundColor }}>
 
           <NavigationContainer>
-            <StackNavigation />
+            <AuthProvider>
+              <StackNavigation />
+            </AuthProvider>
           </NavigationContainer>
         </View>
       </ApplicationProvider>
