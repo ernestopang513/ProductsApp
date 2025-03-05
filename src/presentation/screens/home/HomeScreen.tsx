@@ -3,6 +3,7 @@ import { Button, Icon, Layout, Text } from "@ui-kitten/components"
 import { useAuthStore } from "../../store/auth/useAuthStore"
 import { getProductsByPage } from "../../../accions/products/get-products-by-page";
 import { useQuery } from "@tanstack/react-query";
+import { MainLayout } from '../../layouts/MainLayout';
 
 
 
@@ -18,19 +19,13 @@ export const HomeScreen = () => {
 
 
   return (
-    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>HomeScreen</Text>
-{/* 
-        <Button
-          // style={{width: '100%'}}
-          accessoryLeft={<Icon name="log-out-outline" />}
-          onPress={logout}
-        >
-          Cerrar sesión
-        </Button> */}
-
-
-        <Text>{JSON.stringify(products, null, 2 )}</Text>
-    </Layout>
+    <MainLayout styles={{flex: 1}}
+      title="TesloShop - Products"
+      subTitle="Aplicación administrativa"
+      // rightAction={()=>{}}
+      // rightActionIcon="plus-outline"
+    >
+       <Text>Hola mundo</Text>
+    </MainLayout>
   )
 }
