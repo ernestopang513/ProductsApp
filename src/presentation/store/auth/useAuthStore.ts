@@ -15,11 +15,12 @@ export interface AuthState {
 
     login: (email: string, password: string) => Promise<boolean>;
     checkStatus: () => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 
 export const useAuthStore = create<AuthState>()( (set, get) => ({
-    status: 'checking',
+    status: "checking",
     token: undefined,
     user: undefined,
 
@@ -33,7 +34,9 @@ export const useAuthStore = create<AuthState>()( (set, get) => ({
 
         // * Save token and user in storage
         await StorageAdapter.setItem('token', resp.token);
+        // Solo para ver lo guardado
         const storeToken = await StorageAdapter.getItem('token');
+        console.log('AuthStore login');
         console.log({storeToken})
 
         set({ status: 'authenticated', token: resp.token, user: resp.user})
@@ -50,11 +53,18 @@ export const useAuthStore = create<AuthState>()( (set, get) => ({
 
         // * Save token and user in storage
         await StorageAdapter.setItem('token', resp.token);
+        //Solo para ver lo guardado
         const storeToken = await StorageAdapter.getItem('token');
-        console.log({storeToken})
+        console.log('AuthStore checkStatus');
+        console.log({storeToken});
 
         set({ status: 'authenticated', token: resp.token, user: resp.user})
 
        
+    },
+
+    logout: async () => {
+        await StorageAdapter.removeItem('token')
+        set({ status: 'unauthenticated', token: undefined, user: undefined})
     }
 }) )

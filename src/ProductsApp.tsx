@@ -7,6 +7,9 @@ import './presentation/navigation/gesture-handler'
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components"
 import { useColorScheme, View } from "react-native";
 import { AuthProvider } from "./presentation/providers/AuthProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export const ProductsApp = () => {
 
@@ -18,7 +21,7 @@ export const ProductsApp = () => {
 
   return (
 
-    <>
+    <QueryClientProvider client={queryClient} >
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         {...eva} theme={theme}
@@ -32,6 +35,6 @@ export const ProductsApp = () => {
           </NavigationContainer>
         </View>
       </ApplicationProvider>
-    </>
+    </QueryClientProvider>
   )
 }

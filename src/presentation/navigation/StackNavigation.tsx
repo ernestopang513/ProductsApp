@@ -1,6 +1,5 @@
 
 import { createStackNavigator, StackCardStyleInterpolator } from "@react-navigation/stack"
-import { Text, View } from "react-native"
 import { HomeScreen } from '../screens/home/HomeScreen';
 import { LoginScreen } from "../screens/auth/LoginScreen";
 import { RegisterScreen } from "../screens/auth/RegisterScreen";
