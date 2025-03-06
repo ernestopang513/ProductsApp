@@ -1,7 +1,7 @@
 
 import { Product } from "../../../domain/entities/product"
 import { Layout, List, Text } from "@ui-kitten/components"
-import { ProducCard } from "./ProductCard"
+import { ProductCard } from "./ProductCard"
 import { useState } from "react";
 import { RefreshControl } from "react-native";
 
@@ -30,7 +30,7 @@ export const ProductList = ({products, fetchNextPage}: Props) => {
         numColumns={2}
         keyExtractor={(item,index) => `${item.id}-${index}`}
         renderItem={ ({item}) => (
-            <ProducCard product={item} />
+            <ProductCard product={item} />
         )}
 
         ListFooterComponent={ () => <Layout style= {{height: 150}} />}

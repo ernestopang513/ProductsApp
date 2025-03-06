@@ -16,9 +16,13 @@ export const ProductsApp = () => {
   const colorScheme = useColorScheme();
   // const theme = colorScheme === 'dark' ? eva.dark : eva.light
   const theme = colorScheme === 'dark' ? eva.light : eva.light
+  // const backgroundColor = (colorScheme === 'dark')
+  //   n ? theme['color-basic-800']
+  //   : theme['color-basic-100']
   const backgroundColor = (colorScheme === 'dark')
-    ? theme['color-basic-800']
+    ? theme['color-basic-100']
     : theme['color-basic-100']
+    
 
   return (
 

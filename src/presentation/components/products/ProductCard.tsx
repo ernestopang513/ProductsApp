@@ -3,17 +3,22 @@ import { Card, Text } from "@ui-kitten/components"
 import { Product } from "../../../domain/entities/product"
 import { Image } from "react-native"
 import { FadeInImage } from "../ui/FadeInImage"
+import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { RootStackParams } from "../../navigation/StackNavigation"
 
 interface Props {
     product: Product
 }
 
-export const ProducCard = ({product}: Props) => {
+export const ProductCard = ({product}: Props) => {
+
+  const navigator = useNavigation<NavigationProp<RootStackParams>>();
+
   return (
     // <Text>{product.id}</Text>
    <Card
       style = {{flex: 1, backgroundColor: '#f9f9f9', margin: 3}}
-      onPress={()=> (console.log('hola desde card'))}
+      onPress={()=> navigator.navigate('ProductScreen', { productId: product.id})}
    >
 
     {

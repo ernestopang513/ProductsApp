@@ -12,7 +12,7 @@ export type RootStackParams = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
   HomeScreen: undefined;
-  ProducScreen: {productId: string}
+  ProductScreen: {productId: string}
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -53,7 +53,7 @@ export const StackNavigation = () => {
         name="RegisterScreen"
         component={RegisterScreen} 
       />
-      <Stack.Screen name="ProducScreen"
+      <Stack.Screen name="ProductScreen"
         component={ProductScreen} 
       />
       
