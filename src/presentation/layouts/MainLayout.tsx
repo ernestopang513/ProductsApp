@@ -51,7 +51,7 @@ export const MainLayout = ({
     }
 
     return (
-        <Layout style={[ {padding: top}]}>
+        <Layout style={[ {padding: top, flex: 1}]}>
             <TopNavigation
                 title={title}
                 subtitle={subTitle}
@@ -60,7 +60,7 @@ export const MainLayout = ({
                 accessoryRight={() => <RenderRightAction/>}
             />
             <Divider/>
-            <Layout style={{height: '100%'}}>
+            <Layout style={{flex: 1}}>
             {children}
             </Layout>
         </Layout>
