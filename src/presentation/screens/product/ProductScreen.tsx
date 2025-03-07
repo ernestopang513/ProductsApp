@@ -1,13 +1,13 @@
 
 import { StackScreenProps } from "@react-navigation/stack"
-import { ScrollView, Text, useAnimatedValue, View, StyleSheet, FlatList } from 'react-native';
+import { ScrollView, Text, FlatList } from 'react-native';
 import { RootStackParams } from "../../navigation/StackNavigation"
 import { MainLayout } from "../../layouts/MainLayout";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
 import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "../../../accions/products/get-product-by-id";
 import { useRef } from "react";
-import { Button, ButtonGroup, Input, Layout, Spinner, useTheme } from "@ui-kitten/components";
+import { Button, ButtonGroup, Input, Layout, useTheme } from "@ui-kitten/components";
 import { FadeInImage } from "../../components/ui/FadeInImage";
 import { Gender, Size } from '../../../domain/entities/product';
 import { MyIcon } from "../../components/ui/MyIcon";
@@ -31,7 +31,7 @@ export const ProductScreen = ({ route}: Props) => {
   })
 
 
-  if (!productIdRef.current) {
+  if (!productIdRef.current || !product || isLoading) {
     return (<MainLayout title="Cargando...">
       <FullScreenLoader/>
     </MainLayout>)
@@ -40,18 +40,20 @@ export const ProductScreen = ({ route}: Props) => {
   return (
     <Formik
 
-    initialValues={product ?? {
-      id: '',
-      title: '',
-      price: 0,
-      description: '',
-      slug: '',
-      stock: 0,
-      sizes: [] as Size[],
-      gender: '',
-      tags: [],
-      images: []
-  }}
+    initialValues={product}
+    // enableReinitialize
+    // initialValues={product ?? {
+    //   id: '',
+    //   title: '',
+    //   price: 0,
+    //   description: '',
+    //   slug: '',
+    //   stock: 0,
+    //   sizes: [] as Size[],
+    //   gender: '',
+    //   tags: [],
+    //   images: []
+  // }}
     onSubmit={values => console.log(values)}
     
     >
@@ -64,7 +66,7 @@ export const ProductScreen = ({ route}: Props) => {
             subTitle={`Precio: $${values?.price ?? '0'}`}
           >
             {
-              isLoading
+              (isLoading)
                 ? (
                   <FullScreenLoader />
                 )
@@ -145,14 +147,14 @@ export const ProductScreen = ({ route}: Props) => {
                           <Button
                             onPress={() => setFieldValue(
                               'sizes',
-                              values.sizes.includes(size)
-                                ? values.sizes.filter(s => s !== size)
-                                : [...values.sizes, size]
+                              (values?.sizes ?? []).includes(size)
+                                ? (values?.sizes ?? [ ] ).filter((s: Size) => s !== size)
+                                : [...(values?.sizes ?? []), size]
                             )}
                             key={size}
                             style={{
                               flex: 1,
-                              backgroundColor: values.sizes.includes(size) ? theme['color-primary-200'] : undefined
+                              backgroundColor: (values?.sizes ?? []).includes(size) ? theme['color-primary-200'] : undefined
                             }}
                           >{size}</Button>
                         ))
@@ -171,7 +173,7 @@ export const ProductScreen = ({ route}: Props) => {
                             key={gender}
                             style={{
                               flex: 1,
-                              backgroundColor: values.gender.startsWith(gender) ? theme['color-primary-200'] : undefined
+                              backgroundColor: (values?.gender ?? []).startsWith(gender) ? theme['color-primary-200'] : undefined
                             }}
                           >{gender.toUpperCase()}</Button>
                         ))
