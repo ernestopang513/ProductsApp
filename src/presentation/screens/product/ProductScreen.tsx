@@ -4,7 +4,7 @@ import { ScrollView, Text, FlatList, Keyboard } from 'react-native';
 import { RootStackParams } from "../../navigation/StackNavigation"
 import { MainLayout } from "../../layouts/MainLayout";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductById } from "../../../accions/products/get-product-by-id";
 import { useRef } from "react";
 import { Button, ButtonGroup, Input, Layout, useTheme } from "@ui-kitten/components";
@@ -23,6 +23,7 @@ export const ProductScreen = ({ route}: Props) => {
 
   const productIdRef = useRef(route.params.productId)
   const theme = useTheme();
+  const queryClient = useQueryClient();
   // const {productId} = route.params;
 
   const { data: product} = useQuery({
@@ -34,6 +35,9 @@ export const ProductScreen = ({ route}: Props) => {
   const mutation = useMutation({
     mutationFn: (data: Product) => updateCreateProduct({...data, id: productIdRef.current}),
     onSuccess: (data: Product) => {
+      productIdRef.current = data.id; // creacion
+      queryClient.invalidateQueries({queryKey: ['products', 'infinite']});
+      queryClient.invalidateQueries({queryKey: ['product', data.id]});
       console.log('Success')
     }
   })
