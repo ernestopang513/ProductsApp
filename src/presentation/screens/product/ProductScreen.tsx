@@ -1,17 +1,18 @@
 
 import { StackScreenProps } from "@react-navigation/stack"
-import { ScrollView, Text, FlatList } from 'react-native';
+import { ScrollView, Text, FlatList, Keyboard } from 'react-native';
 import { RootStackParams } from "../../navigation/StackNavigation"
 import { MainLayout } from "../../layouts/MainLayout";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getProductById } from "../../../accions/products/get-product-by-id";
 import { useRef } from "react";
 import { Button, ButtonGroup, Input, Layout, useTheme } from "@ui-kitten/components";
 import { FadeInImage } from "../../components/ui/FadeInImage";
-import { Gender, Size } from '../../../domain/entities/product';
+import { Gender, Product, Size } from '../../../domain/entities/product';
 import { MyIcon } from "../../components/ui/MyIcon";
 import { Formik } from "formik";
+import { updateCreateProduct } from "../../../accions/products/update-create-product";
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M,  Size.L, Size.Xl, Size.Xxl];
 const genders: Gender[] = [Gender.Kid, Gender.Men, Gender.Women, Gender.Unisex];
@@ -24,14 +25,21 @@ export const ProductScreen = ({ route}: Props) => {
   const theme = useTheme();
   // const {productId} = route.params;
 
-  const {isLoading, data: product} = useQuery({
+  const { data: product} = useQuery({
     queryKey: ['product', productIdRef.current],
-    staleTime: 1000 * 60 * 60,
+    staleTime: 1000,
     queryFn: async() => (await getProductById(productIdRef.current))
   })
 
+  const mutation = useMutation({
+    mutationFn: (data: Product) => updateCreateProduct({...data, id: productIdRef.current}),
+    onSuccess: (data: Product) => {
+      console.log('Success')
+    }
+  })
 
-  if (!productIdRef.current || !product || isLoading) {
+
+  if (!product) {
     return (<MainLayout title="Cargando...">
       <FullScreenLoader/>
     </MainLayout>)
@@ -54,7 +62,7 @@ export const ProductScreen = ({ route}: Props) => {
     //   tags: [],
     //   images: []
   // }}
-    onSubmit={values => console.log(values)}
+    onSubmit={ mutation.mutate}
     
     >
 
@@ -65,14 +73,9 @@ export const ProductScreen = ({ route}: Props) => {
             title={values?.title ?? 'Item not found'}
             subTitle={`Precio: $${values?.price ?? '0'}`}
           >
-            {
-              (isLoading)
-                ? (
-                  <FullScreenLoader />
-                )
-                : (
                   <ScrollView
                     style={{}}
+                    keyboardShouldPersistTaps='handled'
                   >
 
                     <FlatList
@@ -131,6 +134,9 @@ export const ProductScreen = ({ route}: Props) => {
                         value={values?.stock.toString()}
                         onChangeText={handleChange('stock')}
                         style={{ flex: 1 }}
+                        // inputMode="text"
+                        keyboardType="number-pad"
+                        numberOfLines={1}
                       />
 
                     </Layout>
@@ -185,7 +191,11 @@ export const ProductScreen = ({ route}: Props) => {
 
                     <Button
                       accessoryLeft={<MyIcon name="save-outline" white />}
-                      onPress={() => console.log('Guardar')}
+                      disabled = {mutation.isPending}
+                      onPress={() => {
+                        handleSubmit()
+                        Keyboard.dismiss();
+                      }}
                       style={{ margin: 15 }}
                     >
                       Guardar
@@ -201,8 +211,8 @@ export const ProductScreen = ({ route}: Props) => {
 
 
                   </ScrollView>
-                )
-            }
+                
+            
           </MainLayout>
         )
       }

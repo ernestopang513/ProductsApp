@@ -27,6 +27,8 @@ export const authLogin = async(email: string, password: string) => {
         const { data } = await tesloApi.post<AuthResponse>('/auth/login', {
             email,
             password,
+        }, {
+            timeout: 3000
         });
 
         return returnUserToken(data);

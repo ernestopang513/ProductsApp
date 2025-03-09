@@ -6,8 +6,10 @@ import { Product } from '../../domain/entities/product';
 
 export const updateCreateProduct = (product : Partial<Product>) => {
 
-    product.stock = Number(product.stock); 
-    product.price = Number(product.price); 
+    product.stock = isNaN(Number(product.stock)) ? 0 : Number(product.stock); 
+    product.price = isNaN(Number(product.price)) ? 0 : Number(product.price); 
+
+    console.log({stock: product.stock})
 
     if (product.id) {
         return updateProduct(product)
