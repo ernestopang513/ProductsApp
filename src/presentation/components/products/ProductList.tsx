@@ -23,7 +23,7 @@ export const ProductList = ({products, fetchNextPage}: Props) => {
   const onPullToRefresh = async() => {
     setIsRegreshing(true);
     //! Solo en local
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // await new Promise(resolve => setTimeout(resolve, 1500));
     queryClient.invalidateQueries({queryKey: ['products', 'infinite']})
 
     setIsRegreshing(false)
