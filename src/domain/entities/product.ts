@@ -7,7 +7,7 @@ export interface Product {
     stock:       number;
     sizes:       Size[];
     gender:      Gender;
-    tags:        string;
+    tags:        string[];
     images:      string[];
 }
 

@@ -1,6 +1,6 @@
 
 import { Button } from "@ui-kitten/components"
-import { StyleProp, Text, View, ViewStyle } from "react-native"
+import { StyleProp, ViewStyle } from "react-native"
 import { MyIcon } from "./MyIcon"
 
 interface Props {
@@ -24,8 +24,8 @@ export const FAB = ({style, iconName, onPress}: Props) => {
         },
         shadowOpacity: 0.4,
         shadowRadius: 10,
-        elevation: 5,
-        borderRadius:  9,
+        elevation: 10,
+        borderRadius:  13,
       }]}
       accessoryLeft={<MyIcon name = {iconName} white />}
       onPress={onPress}

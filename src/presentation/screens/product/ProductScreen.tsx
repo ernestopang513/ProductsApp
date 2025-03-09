@@ -1,6 +1,6 @@
 
 import { StackScreenProps } from "@react-navigation/stack"
-import { ScrollView, Text, FlatList, Keyboard } from 'react-native';
+import { ScrollView, Text, FlatList, Keyboard, Image } from 'react-native';
 import { RootStackParams } from "../../navigation/StackNavigation"
 import { MainLayout } from "../../layouts/MainLayout";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
@@ -81,19 +81,25 @@ export const ProductScreen = ({ route}: Props) => {
                     style={{}}
                     keyboardShouldPersistTaps='handled'
                   >
-
-                    <FlatList
-                      data={values?.images}
-                      keyExtractor={(item) => item}
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      renderItem={({ item }) => (
-                        <FadeInImage
-                          uri={item}
-                          style={{ width: 300, height: 300, marginHorizontal: 7 }}
-                        />
-                      )}
-                    />
+                    <Layout style={{marginVertical: 10,justifyContent: 'center', alignItems: 'center'}}>
+                      {
+                      (values.images.length === 0) 
+                        ? (<Image source={require('../../../assets/no-product-image.png')} style = {{width: 300, height: 300}} />)
+                        : (
+                          <FlatList
+                            data={values?.images}
+                            keyExtractor={(item) => item}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item }) => (
+                              <FadeInImage
+                                uri={item}
+                                style={{ width: 300, height: 300, marginHorizontal: 7 }}
+                              />
+                            )}
+                          />)
+                        }
+                    </Layout>
 
                     {/* Formulario */}
                     <Layout style={{ marginHorizontal: 10 }}>
