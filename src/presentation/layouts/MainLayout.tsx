@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { authLogin } from '../../accions/auth/auth';
 import { useNavigation } from "@react-navigation/native";
 import { MyIcon } from "../components/ui/MyIcon";
+import { useAuthStore } from "../store/auth/useAuthStore";
 
 interface Props {
     title: string;
@@ -50,6 +51,19 @@ export const MainLayout = ({
         )
     }
 
+    const LogoutAction = () => {
+        const {logout} = useAuthStore();
+        return(
+            <View style ={{justifyContent: "center", alignItems: 'center'}}>
+                <TopNavigationAction
+                    icon={<MyIcon name="log-out-outline" />}
+                    onPress={logout}
+                />
+                <Text style ={{ fontSize: 10 }}>Logout</Text>
+            </View>
+        )
+    }
+
     return (
         <Layout style={[ {padding: top, flex: 1}]}>
             <TopNavigation
@@ -57,7 +71,7 @@ export const MainLayout = ({
                 subtitle={subTitle}
                 alignment="center"
                 accessoryLeft={ canGoBack() ? renderBackAction : undefined}
-                accessoryRight={() => <RenderRightAction/>}
+                accessoryRight={() => (canGoBack()? <RenderRightAction/> : <LogoutAction/>)}
             />
             <Divider/>
             <Layout style={{flex: 1}}>
