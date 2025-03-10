@@ -1,17 +1,17 @@
-
-import { StackScreenProps } from "@react-navigation/stack"
+import { useRef } from "react";
 import { ScrollView, Text, FlatList, Keyboard, Image } from 'react-native';
+import { StackScreenProps } from "@react-navigation/stack"
 import { RootStackParams } from "../../navigation/StackNavigation"
+import { Button, ButtonGroup, Input, Layout, useTheme } from "@ui-kitten/components";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Formik } from "formik";
+
 import { MainLayout } from "../../layouts/MainLayout";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductById } from "../../../accions/products/get-product-by-id";
-import { useRef } from "react";
-import { Button, ButtonGroup, Input, Layout, useTheme } from "@ui-kitten/components";
 import { FadeInImage } from "../../components/ui/FadeInImage";
 import { Gender, Product, Size } from '../../../domain/entities/product';
 import { MyIcon } from "../../components/ui/MyIcon";
-import { Formik } from "formik";
 import { updateCreateProduct } from "../../../accions/products/update-create-product";
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M,  Size.L, Size.Xl, Size.Xxl];
@@ -53,19 +53,6 @@ export const ProductScreen = ({ route}: Props) => {
     <Formik
 
     initialValues={product}
-    // enableReinitialize
-    // initialValues={product ?? {
-    //   id: '',
-    //   title: '',
-    //   price: 0,
-    //   description: '',
-    //   slug: '',
-    //   stock: 0,
-    //   sizes: [] as Size[],
-    //   gender: '',
-    //   tags: [],
-    //   images: []
-  // }}
     onSubmit={ mutation.mutate}
     
     >
@@ -76,6 +63,8 @@ export const ProductScreen = ({ route}: Props) => {
 
             title={values?.title ?? 'Item not found'}
             subTitle={`Precio: $${values?.price ?? '0'}`}
+            rightAction={() => console.log('Hola mundo')}
+            rightActionIcon="camera-outline"
           >
                   <ScrollView
                     style={{}}
