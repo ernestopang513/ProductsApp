@@ -13,6 +13,7 @@ import { FadeInImage } from "../../components/ui/FadeInImage";
 import { Gender, Product, Size } from '../../../domain/entities/product';
 import { MyIcon } from "../../components/ui/MyIcon";
 import { updateCreateProduct } from "../../../accions/products/update-create-product";
+import { CameraAdapter } from "../../../config/adapters/camera.adapter";
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M,  Size.L, Size.Xl, Size.Xxl];
 const genders: Gender[] = [Gender.Kid, Gender.Men, Gender.Women, Gender.Unisex];
@@ -63,8 +64,12 @@ export const ProductScreen = ({ route}: Props) => {
 
             title={values?.title ?? 'Item not found'}
             subTitle={`Precio: $${values?.price ?? '0'}`}
-            rightAction={() => console.log('Hola mundo')}
-            rightActionIcon="camera-outline"
+            rightAction={async() => {
+              const photos = await CameraAdapter.getPicturesFromLibrary();
+              console.log(photos);
+              setFieldValue('images', [...values.images, ...photos])
+            }}
+            rightActionIcon="image-outline"
           >
                   <ScrollView
                     style={{}}
